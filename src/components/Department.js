@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Table } from 'react-bootstrap';
 import { Button, ButtonToolbar } from 'react-bootstrap';
 import { AddDepModal } from './AddDepModal';
+import { EditDepModal } from './EditDepModal'
 
 export class Department extends Component {
 
@@ -9,7 +10,8 @@ export class Department extends Component {
     super();
     this.state = {
       deps: [],
-      addModalShow: false
+      addModalShow: false,
+      editModalShow: false
     }
   }
 
@@ -30,8 +32,9 @@ export class Department extends Component {
   }
 
   render () {
-    const { deps } = this.state;
+    const { deps, depid, depname } = this.state;
     let addModalClose = () => this.setState({ addModalShow: false });
+    let editModalClose = () => this.setState({ editModalShow: false });
 
     return (
       <div>
@@ -40,6 +43,7 @@ export class Department extends Component {
             <tr>
               <th>DepartmentID</th>
               <th>DepartmentName</th>
+              <th>Option</th>
             </tr>
           </thead>
           <tbody>
@@ -47,6 +51,25 @@ export class Department extends Component {
               <tr key={dep.id}>
                 <td>{dep.id}</td>
                 <td>{dep.name}</td>
+                <td>
+                  <ButtonToolbar>
+                    <Button
+                      className='mr-2'
+                      variant='info'
+                      onClick={() => this.setState({ editModalShow: true, depid: dep.id, depname: dep.name })}
+                    >
+                      Edit
+                    </Button>
+
+                    <EditDepModal
+                      show={this.state.editModalShow}
+                      onHide={editModalClose}
+                      depid={depid}
+                      depname={depname}
+                    />
+
+                  </ButtonToolbar>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -61,6 +84,7 @@ export class Department extends Component {
             show={this.state.addModalShow}
             onHide={addModalClose}
           />
+
         </ButtonToolbar>
       </div>
     );
