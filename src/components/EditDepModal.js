@@ -20,10 +20,6 @@ export class EditDepModal extends Component {
   };
 
   handleSubmit (event) {
-    console.log(JSON.stringify({
-      ID: event.target.DepartmentID.value,
-      Name: event.target.DepartmentName.value
-    }));
     event.preventDefault();
     fetch('http://localhost:49269/api/departments', {
       method: 'PUT',

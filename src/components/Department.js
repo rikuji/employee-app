@@ -20,6 +20,7 @@ export class Department extends Component {
   }
 
   refreshList () {
+
     fetch('http://localhost:49269/api/departments')
       .then(response => response.json())
       .then(data => {
@@ -29,6 +30,19 @@ export class Department extends Component {
 
   componentDidUpdate () {
     this.refreshList();
+  }
+
+  deleteDep (depid) {
+    if (window.confirm('Are you sure?')) {
+
+      fetch('http://localhost:49269/api/departments/' + depid, {
+        method: 'DELETE',
+        header: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      });
+    }
   }
 
   render () {
@@ -60,6 +74,8 @@ export class Department extends Component {
                     >
                       Edit
                     </Button>
+
+                    <Button className="mr-2" onClick={() => this.deleteDep(dep.id)} variant="danger">Delete</Button>
 
                     <EditDepModal
                       show={this.state.editModalShow}
